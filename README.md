@@ -12,6 +12,16 @@ Grazie all'utilizzo di *JSX*, un dialetto del JavaScript, è possibile definire 
 Creatori e casi d'uso
 =====================
 
+Attualmente React è mantenuto da Facebook ed Instagram (social network famosi a livello mondiale) che lo implementano all'interno delle proprie applicazioni web, assieme ad altri nomi degni di rispetto, come:
+
+* **Netflix** (http://www.netflix.com)
+* **Imgur** (http://imgur.com/)
+* **Airbnb** (https://www.airbnb.it/)
+* **Wordpress** (https://developer.wordpress.com/calypso/)
+
+====================
+Componenti specifici
+====================
 
 Il punto cruciale della visualizzazione di un componente è il metodo *render()*: vediamone un esempio.
 
@@ -84,8 +94,17 @@ Ecco un esempio che dimostra l'utilizzo di **AJAX** (Asynchronous Javascript And
 AJAX è estremamente comodo quando si desidera **interagire con un server senza dover ricaricare la pagina** (come invece avviene in PHP): sarebbe inutile rinunciare a questa comodità e ricrearla ex novo ogni qualvolta fosse necessario!
 *Approfondimenti su AJAX:* http://www.w3schools.com/jquery/jquery_ref_ajax.asp
 
+==================
+E per il mobile..?
+==================
+
+Se la possibile combinazione di Bootstrap e ReactJS non vi dovesse bastare, gli ingegneri di Facebook hanno sviluppato anche React Native, un framework che offre la possibilità di sviluppare applicazioni basate su Javascript e React, ma che combinano componenti nativi (come il Drawer di Android o la UITabBar di iOS) senza dover cambiare il proprio codice sorgente.
+Si tratta senz'altro di una soluzione molto più indicata per chi vuole evitare le latenze nelle animazioni CSS3 in WebView, per chi desidera utilizzare i componenti propri del sistema operativo d'appoggio (che senso ha stilare una View da capo ogni volta se questa esiste già nella macchina a disposizione?), e per chi vuole creare app native senza dover per forza scrivere tutta l'applicazione in Java o C (per Android), oppure Objective C o Swift (per iOS).
+
 ================================
 Spunti & Articoli di Terze Parti
 ================================
 
 * http://reactfordesigners.com/labs/reactjs-introduction-for-people-who-know-just-enough-jquery-to-get-by/
+* http://facebook.github.io/react/
+* http://facebook.github.io/react-native/
