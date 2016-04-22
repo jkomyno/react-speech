@@ -11,7 +11,7 @@ Grazie all'utilizzo di *JSX*, un dialetto del JavaScript, è possibile definire 
 Ogni componente React tiene rigorosamente conto di ogni suo **stato**. Gli stati del componente corrispondono alle variabili che ogni suo oggetto assume al momento della creazione.
 Il punto cruciale della visualizzazione di un componente è il metodo *render()*: vediamone un esempio.
 
-.. code-block:: javascript
+.. code-block:: js
 
 	var HelloMessage = React.createClass({
 	  render: function() {
