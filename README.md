@@ -1,6 +1,6 @@
-******************************************************************
+==================================================================
 ReactJS: un'interfaccia JavaScript dedicata alle interfacce utente
-******************************************************************
+==================================================================
 
 **ReactJs** è una libreria javascript per costruire *UI* composte da **componenti riutilizzabili**. React si dedica principalmente alla View, ovvero la parte di un qualsiasi progetto che si occupa di visualizzare i contenuti della logica di software (model) e di regolare l'interazione tra utenti e servizi. 
 
