@@ -94,6 +94,85 @@ Ecco un esempio che dimostra l'utilizzo di **AJAX** (Asynchronous Javascript And
 AJAX è estremamente comodo quando si desidera **interagire con un server senza dover ricaricare la pagina** (come invece avviene in PHP): sarebbe inutile rinunciare a questa comodità e ricrearla ex novo ogni qualvolta fosse necessario!
 *Approfondimenti su AJAX:* http://www.w3schools.com/jquery/jquery_ref_ajax.asp
 
+=====================
+Passiamo alla pratica
+=====================
+
+Proviamo ora a riprodurre il funzionamento dei Tweet Box, i contenitori dei cinguettii di **Twitter**. Consiglio l'utilizzo di JSBin (http://jsbin.com/)
+
+.. image:: http://reactfordesigners.com/images/labs/tweet-box.png
+    :alt: Twitter tutorial
+    :width: 900
+    :height: 259
+    :align: center
+
+Iniziamo dall'HTML di base:
+
+```html
+	<!DOCTYPE html>
+	<html>
+	<head>
+	  <meta charset="utf-8">
+	  <title>JS Bin</title>
+	</head>
+	<body>
+	  <button>Button</button>
+	</body>
+	</html>
+```
+
+Ora clicchiamo su "Add Library", ed aggiungiamo l'ultima versione di Bootstrap. Possiamo abbellire il nostro <Button/> con la classe *btn btn-primary*.
+
+Aggiungiamo nel body:
+
+```html
+	<div class="well clearfix">
+	  <textarea class="form-control"></textarea><br/>
+	  <button class="btn btn-primary pull-right">Tweet</button>
+	</div>
+```
+**Attenzione**: se continuassimo ad inserire componenti nel body (ovvero nel DOM, ovvero nella View), a cosa servirebbe React?
+Ha molto più senso tenere nel body solo un *div* (una specie di contenitore vuoto), che identificheremo grazie all'*ID* "container".
+```html
+    <body>
+	  <div id="container"></div>
+	</body>
+```
+
+Ora, nella tab JS (o meglio, ReactJS), inseriamo un codice di prova per il componente **TweetBox**:
+
+```javascript
+	var TweetBox = React.createClass({
+	  render: function() {
+		return (
+		  <div>
+			Hello World!
+		  </div>
+		);
+	  }
+	});
+```
+
+Per poterlo visualizzare all'interno della pagina web, è necessario collegarlo col seguente snippet di codice:
+
+```javascript
+	ReactDOM.render(
+	  <TweetBox />,
+	  document.getElementById("container")
+	);
+```
+
+Ora funziona? Avete provato a capire perché?
+
+Ottimo, ora basterà soltanto sostituire al div con l'hello world un componente HTML più interessante:
+```html
+	<div className="well clearfix">
+	  <textarea className="form-control"></textarea>
+	  <br/>
+	  <button className="btn btn-primary pull-right">Tweet</button>
+	</div>
+```
+
 ==================
 E per il mobile..?
 ==================
