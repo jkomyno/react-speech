@@ -100,11 +100,7 @@ Passiamo alla pratica
 
 Proviamo ora a riprodurre il funzionamento dei Tweet Box, i contenitori dei cinguettii di **Twitter**. Consiglio l'utilizzo di JSBin (http://jsbin.com/)
 
-.. image:: http://reactfordesigners.com/images/labs/tweet-box.png
-    :alt: Twitter tutorial
-    :width: 900
-    :height: 259
-    :align: center
+# ![pageres](http://reactfordesigners.com/images/labs/tweet-box.png)
 
 Iniziamo dall'HTML di base:
 
