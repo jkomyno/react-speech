@@ -12,7 +12,7 @@ Grazie all'utilizzo di *JSX*, un dialetto del JavaScript, è possibile definire 
 Creatori e casi d'uso
 =====================
 
-Attualmente React è mantenuto da Facebook ed Instagram (social network famosi a livello mondiale) che lo implementano all'interno delle proprie applicazioni web, assieme ad altri nomi degni di rispetto, come:
+Attualmente la libreria React è mantenuta da Facebook per facilitare la creazione di componenti interattivi, orientati agli stati e riutilizzabili. Instagram è scritto interamente in ReactJS, ma vi sono altri siti degni di nota che lo implementano all'interno delle proprie applicazioni web, come ad esempio:
 
 * **Netflix** (http://www.netflix.com)
 * **Imgur** (http://imgur.com/)
@@ -64,9 +64,43 @@ ReactDOM.render(<Timer />, mountNode);
 
 Andiamo subito ad analizzare il codice sopra riportato. Com'è possibile osservare, il componente Timer è composto da una particolare classe che contiene i metodi *getInitialState()*, *tick()*, *componentDidMount()*, *componentWillUnmount()* e *render()*.
 
+===========================================
+Metodi dedicati al ciclo di vita di ReactJS
+===========================================
+
+Ecco i principali metodi predefiniti di ReactJS dedicati al lifecycle dei componenti:
+
 * **getInitialState()**: Metodo invocato una volta sola, appena prima che il componente venga creato. Il valore ritornato sarà utilizzato come valore iniziale per *this.state*, il contenitore degli stati del componente.
 * **componentDidMount()**: Metodo invocato una volta sola subito dopo il rendering iniziale del componente. Vale solo per il lato client (e non per il server). Da questo componente del ciclo di vita della View, è possibile accedere ad ogni riferimento (refs) dei componenti figli.
+* **componentWillMount**: Invocato una volta sola sia a lato client che a lato server appena prima che venga effettuato il rendering. Viene preceduto da *getInitialState()*.
 * **componentWillUnmount**: Invocato non appena si interrompe il rendering del componente. Esso compie ogni *pulizia* necessaria nella View, come ad esempio invalidare il timer precedente creato o eliminare ogni commento o like sotto ad un post, o comunque ogni cosa creata all'interno di componentDidMount().
+
+Esistono in oltre metodi setter dedicati, come:
+
+* **setState()**: metodo che lancia l'update dell'interfaccia utente. Letteralmente, imposta il nuovo valore per lo stato del componente.
+
+============================
+Differenza tra state e props
+============================
+
+Facebook impone alcune norme di "buon utilizzo" degli stati e delle proprietà dei vari componenti.
+
+**Cos'è lo *state*?**
+
+State dovrebbe contenere dati dinamici, il cui cambiamento deve comportare un aggiornamento della UI. Solitamente, questa tipologia di dati è serializzata con lo standard JSON, ed è estremamente ridotta, il che tra l'altro facilita l'utilizzo di ReactJS stesso. Questi dati essenziali saranno mantenuti in *this.state*. Per altre sottoproprietà da utilizzare nel rendering, è opportuno utilizzare le *props*.
+
+**Cosa sono le *props*?**
+
+Le props (abbraviazione di properties, ovvero proprietà) rappresentano le configurazione di un componente, e possiamo quindi intenderle come opzioni di esso. Esse sono immutabili fintantoché il componente che le riceve come attributi è coinvolto.
+
+- | _props_ | _state_ | 
+--- | --- | --- 
+Può ottenere un valore iniziale da un componente padre? | Sì | Sì
+Può essere cambiato da un componente padre? | Sì | No
+Pul impostare un valore di default all'interno di un componente? | Sì | Sì
+Può cambiare all'interno di un componente? | No | Sì
+Può impostare un valore di default per i componenti figli? | Sì | Sì
+Può cambiare nei componenti figli? | Sì | No
 
 =======================
 Integrazione con jQuery
@@ -98,11 +132,11 @@ AJAX è estremamente comodo quando si desidera **interagire con un server senza 
 Passiamo alla pratica
 =====================
 
-Proviamo ora a riprodurre il funzionamento dei Tweet Box, i contenitori dei cinguettii di **Twitter**. Consiglio l'utilizzo di JSBin (http://jsbin.com/)
+Proviamo ora a riprodurre il funzionamento di una barra di ricerca che filtra una data lista. Consiglio l'utilizzo di JSBin (http://jsbin.com/).
 
-# ![pageres](http://reactfordesigners.com/images/labs/tweet-box.png)
+# ![pageres](image.png)
 
-Iniziamo dall'HTML di base:
+Iniziamo dall'HTML di base, che JSBin mostra di default:
 
 ```html
 	<!DOCTYPE html>
@@ -117,57 +151,106 @@ Iniziamo dall'HTML di base:
 	</html>
 ```
 
-Ora clicchiamo su "Add Library", ed aggiungiamo l'ultima versione di Bootstrap. Possiamo abbellire il nostro <Button/> con la classe *btn btn-primary*.
+Ora clicchiamo su "Add Library", ed aggiungiamo l'ultima versione di Bootstrap. Possiamo abbellire il nostro <Button/> con la classe *btn btn-primary*. Aggiungiamo inoltre la libreria ReactJS 0.14.7.
 
-Aggiungiamo nel body:
+Per poter utilizzare ReactJS, l'unica altra cosa di cui abbiamo bisogno nell'HTML è la dichiarazione di una View identificativa vuota.
+Aggiungiamo quindi nel body:
 
 ```html
-	<div class="well clearfix">
-	  <textarea class="form-control"></textarea><br/>
-	  <button class="btn btn-primary pull-right">Tweet</button>
-	</div>
-```
-**Attenzione**: se continuassimo ad inserire componenti nel body (ovvero nel DOM, ovvero nella View), a cosa servirebbe React?
-Ha molto più senso tenere nel body solo un *div* (una specie di contenitore vuoto), che identificheremo grazie all'*ID* "container".
-```html
-    <body>
-	  <div id="container"></div>
-	</body>
+	<div id="component"></div>
 ```
 
-Ora, nella tab JS (o meglio, ReactJS), inseriamo un codice di prova per il componente **TweetBox**:
+Spostiamoci nella tab JSX. Avremo bisogno di definire due componenti, nello specifico liste: una per la visualizzazione degli elementi da filtrare disponibili, e un'altra per poter visualizzare solo l'elemento filtrato.
+
+Iniziamo a pensare a che elementi debbano appartenere alla lista filtrata. Per esempio, pensiamo di dover filtrare alcune note marche di elettronica.
+Lo stato iniziale dovrà quindi essere rappresentato così:
 
 ```javascript
-	var TweetBox = React.createClass({
-	  render: function() {
+  getInitialState: function(){
+     return {
+       initialItems: [
+         "Acer",
+         "Dell",
+         "Alienware",
+         "Asus",
+         "HP",
+         "Samsung"
+       ],
+       items: []
+     }
+  },
+```
+
+Avremo quindi:
+
+```javascript
+	var FilteredList = React.createClass({
+	  filterList: function(event){
+		var updatedList = this.state.initialItems;
+		updatedList = updatedList.filter(function(item){
+		  // il codice sottostante ci consente di non fare distinzione tra
+		  // lettere maiuscole e minuscole nella ricerca
+		  return item.toLowerCase().search(
+			event.target.value.toLowerCase()) !== -1;
+		});
+		this.setState({items: updatedList});
+	  },
+	  getInitialState: function(){
+		 return {
+		   // array iniziale di elementi
+		   initialItems: [ 
+			 "Acer",
+			 "Dell",
+			 "Alienware",
+			 "Asus",
+			 "HP",
+			 "Samsung"
+		   ],
+		   items: [] // inizialmente è un array vuoto
+		 }
+	  },
+	  componentWillMount: function(){
+		this.setState({items: this.state.initialItems})
+	  },
+	  render: function(){
 		return (
-		  <div>
-			Hello World!
+		  <div className="filter-list form-group">
+			<input className="form-control" type="text" placeholder="Cerca" onChange={this.filterList}/> //onChange viene lanciato quando viene inserito del testo all'interno del componente HTML input.
+		  <List items={this.state.items}/>
 		  </div>
 		);
 	  }
 	});
+
+	// per ora la lasciamo vuota
+	var List = React.createClass({
+	  render: function(){
+		return (
+		  <div></div>
+		)  
+	  }
+	});
 ```
 
-Per poterlo visualizzare all'interno della pagina web, è necessario collegarlo col seguente snippet di codice:
+Per renderizzare effettivamente il componente principale nel DOM, è necessario "agganciarlo" al div vuoto che avevamo creato all'inizio:
 
 ```javascript
-	ReactDOM.render(
-	  <TweetBox />,
-	  document.getElementById("container")
-	);
+	React.render(<FilteredList/>, document.getElementById('mount-point'));
 ```
 
-Ora funziona? Avete provato a capire perché?
+Ora cambiamo il risultato ritornato dal componente List:
 
-Ottimo, ora basterà soltanto sostituire al div con l'hello world un componente HTML più interessante:
-```html
-	<div className="well clearfix">
-	  <textarea className="form-control"></textarea>
-	  <br/>
-	  <button className="btn btn-primary pull-right">Tweet</button>
-	</div>
+```javascript
+    <ul className="list-group">
+    {
+	  this.props.items.map(function(item) {
+	    return <li className="list-group-item" key={item}>{item}</li>
+	  })
+     }
+    </ul>
 ```
+
+Attenzione: se vogliamo modificare o selezionare le classi HTML da JSX, è obbligatorio utilizzare "className" al posto di "class".
 
 ==================
 E per il mobile..?
