@@ -39,10 +39,8 @@ Inoltre, è ovviamente supportato il salvataggio dell'input dell'utente, nelle c
 ```javascript
 	var Timer = React.createClass({
 	  getInitialState: function() {
-	    // ritorna un oggetto
 		return {secondsElapsed: 0};
 	  },
-	  // metodo custom per simulare il comportamento di un orologio, secondo dopo secondo
 	  tick: function() {
 		this.setState({secondsElapsed: this.state.secondsElapsed + 1});
 	  },
@@ -54,12 +52,10 @@ Inoltre, è ovviamente supportato il salvataggio dell'input dell'utente, nelle c
 	  },
 	  render: function() {
 		return (
-		  <div>Seconds Elapsed: {this.state.secondsElapsed}</div>
+		  <div>Secondi passati: {this.state.secondsElapsed}</div>
 		);
 	  }
 	});
-
-ReactDOM.render(<Timer />, mountNode);
 ```
 
 Andiamo subito ad analizzare il codice sopra riportato. Com'è possibile osservare, il componente Timer è composto da una particolare classe che contiene i metodi *getInitialState()*, *tick()*, *componentDidMount()*, *componentWillUnmount()* e *render()*.
@@ -244,7 +240,7 @@ Ora cambiamo il risultato ritornato dal componente List:
     <ul className="list-group">
     {
 	  // map() non è un metodo di React, è integrato di default in JavaScript.
-	  // Il valore ritornato è 
+	  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 	  this.props.items.map(function(item) {
 	    return <li className="list-group-item" key={item}>{item}</li>
 	  })
