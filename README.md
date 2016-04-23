@@ -157,7 +157,7 @@ Per poter utilizzare ReactJS, l'unica altra cosa di cui abbiamo bisogno nell'HTM
 Aggiungiamo quindi nel body:
 
 ```html
-	<div id="component"></div>
+	<div id="example"></div>
 ```
 
 Spostiamoci nella tab JSX. Avremo bisogno di definire due componenti, nello specifico liste: una per la visualizzazione degli elementi da filtrare disponibili, e un'altra per poter visualizzare solo l'elemento filtrato.
@@ -235,7 +235,7 @@ Avremo quindi:
 Per renderizzare effettivamente il componente principale nel DOM, è necessario "agganciarlo" al div vuoto che avevamo creato all'inizio:
 
 ```javascript
-	React.render(<FilteredList/>, document.getElementById('mount-point'));
+	React.render(<FilteredList/>, document.getElementById('example'));
 ```
 
 Ora cambiamo il risultato ritornato dal componente List:
@@ -243,6 +243,8 @@ Ora cambiamo il risultato ritornato dal componente List:
 ```javascript
     <ul className="list-group">
     {
+	  // map() non è un metodo di React, è integrato di default in JavaScript.
+	  // Il valore ritornato è 
 	  this.props.items.map(function(item) {
 	    return <li className="list-group-item" key={item}>{item}</li>
 	  })
@@ -250,7 +252,7 @@ Ora cambiamo il risultato ritornato dal componente List:
     </ul>
 ```
 
-Attenzione: se vogliamo modificare o selezionare le classi HTML da JSX, è obbligatorio utilizzare "className" al posto di "class".
+**Attenzione: se vogliamo modificare o selezionare le classi HTML da JSX, è obbligatorio utilizzare "className" al posto di "class"**.
 
 ==================
 E per il mobile..?
